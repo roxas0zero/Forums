@@ -11,10 +11,9 @@ namespace Forums.Data
         {
         }
 
-        DbSet<ApplicationUser> ApplicationUsers { get; set; }
-        DbSet<Forum> Forums  { get; set; }
-        DbSet<Post> Posts { get; set; }
-        DbSet<PostReply> PostReplies { get; set; }
-        
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<Forum> Forums  { get; set; }
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<PostReply> PostReplies { get; set; }        
     }
 }
