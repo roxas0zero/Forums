@@ -9,7 +9,7 @@ namespace Forums.Models
         public string Content { get; set; }
         public DateTime Created { get; set; }
 
-        public virtual IdentityUser User { get; set; }
+        public virtual ApplicationUser User { get; set; }
         public virtual Post Post { get; set; }
     }
 }
