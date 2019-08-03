@@ -25,7 +25,7 @@ namespace Forums.Controllers
                 .Select(forum => new ForumListingModel
                 {
                     Id = forum.Id,
-                    Name = forum.Title,
+                    Title = forum.Title,
                     Description = forum.Description
                 });
 
@@ -40,7 +40,7 @@ namespace Forums.Controllers
         public IActionResult Topic(int id)
         {
             var forum = _forumService.GetById(id);
-            var posts = _postService.GetPostsByForum(id);
+            var posts = forum.Posts;
 
             var postListings = posts.Select(p => new PostListingModel
             {
@@ -53,12 +53,30 @@ namespace Forums.Controllers
                Forum = BuildForumListing(p)
             });
 
-            return View(postListings);
+            var model = new ForumTopicModel
+            {
+                Forum = BuildForumListing(forum),
+                Posts = postListings
+            };
+
+            return View(model);
         }
 
-        private ForumListingModel BuildForumListing(Post p)
+        private ForumListingModel BuildForumListing(Post post)
         {
-            throw new NotImplementedException();
+            var forum = post.Forum;
+            return BuildForumListing(forum);
+        }
+
+        private ForumListingModel BuildForumListing(Forum forum)
+        {
+            return new ForumListingModel()
+            {
+                Id = forum.Id,
+                Title = forum.Title,
+                Description = forum.Description,
+                ImageUrl = forum.ImageUrl
+            };
         }
     }
 }

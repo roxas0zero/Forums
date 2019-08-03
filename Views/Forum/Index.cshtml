@@ -1,4 +1,4 @@
-﻿@model Forums.Models.ForumViewModels.ForumIndexModel
+﻿@model Forums.ViewModels.Forum.ForumIndexModel
 
 <h1>Forums</h1>
 
@@ -9,7 +9,7 @@
             <tr>
                 <td>
                     <a asp-controller="Forum" asp-action="Topic" asp-route-id="@forum.Id">
-                        @forum.Name
+                        @forum.Title
                     </a>                    
                 </td>
                 <td>

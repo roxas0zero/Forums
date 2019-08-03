@@ -64,3 +64,4 @@ C:\Users\Abdullah\Source\Repos\Forums\obj\Debug\netcoreapp2.2\Razor\Areas\Identi
 C:\Users\Abdullah\Source\Repos\Forums\obj\Debug\netcoreapp2.2\Razor\Areas\Identity\Pages\_ValidationScriptsPartial.g.cshtml.cs
 C:\Users\Abdullah\Source\Repos\Forums\obj\Debug\netcoreapp2.2\Razor\Areas\Identity\Pages\_ViewImports.g.cshtml.cs
 C:\Users\Abdullah\Source\Repos\Forums\obj\Debug\netcoreapp2.2\Razor\Views\Forum\Index.g.cshtml.cs
+C:\Users\Abdullah\Source\Repos\Forums\obj\Debug\netcoreapp2.2\Razor\Views\Forum\Topic.g.cshtml.cs
