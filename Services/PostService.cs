@@ -1,6 +1,7 @@
 ﻿using Forums.Data;
 using Forums.Models;
 using Forums.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,7 +40,14 @@ namespace Forums.Services
 
         public Post GetById(int id)
         {
-            throw new NotImplementedException();
+            var post = _context.Posts.Where(p => p.Id == id)
+                .Include(p => p.User)
+                .Include(p => p.Replies)
+                    .ThenInclude(r => r.User)
+                .Include(p => p.Forum)
+                .First();
+
+            return post;
         }
 
         public IEnumerable<Post> GetFilteredPosts(string searchQuery)

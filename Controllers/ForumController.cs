@@ -10,13 +10,11 @@ namespace Forums.Controllers
 {
     public class ForumController : Controller
     {
-        private readonly IForumService _forumService;
-        private readonly IPostService _postService;
+        private readonly IForumService _forumService;        
 
-        public ForumController(IForumService forumService, IPostService postService)
+        public ForumController(IForumService forumService)
         {
             _forumService = forumService;
-            _postService = postService;
         }
 
         public IActionResult Index()
