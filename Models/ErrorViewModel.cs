@@ -1,5 +1,3 @@
-using System;
-
 namespace Forums.Models
 {
     public class ErrorViewModel

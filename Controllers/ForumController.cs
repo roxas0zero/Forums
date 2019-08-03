@@ -3,7 +3,6 @@ using Forums.Services.Interfaces;
 using Forums.ViewModels.Forum;
 using Forums.ViewModels.Post;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Linq;
 
 namespace Forums.Controllers
@@ -44,6 +43,7 @@ namespace Forums.Controllers
             {
                Id = p.Id,
                AuthorId = p.User.Id,
+               AuthorName = p.User.UserName,
                AuthorRating = p.User.Rating,
                Title = p.Title,
                DatePosted = p.Created.ToString(),
