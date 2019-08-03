@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Forums.Data;
 using Forums.Models;
@@ -21,15 +22,17 @@ namespace Forums.Services
             throw new System.NotImplementedException();
         }
 
-        public Task Delete(int Id)
+        public Task Delete(int id)
         {
             throw new System.NotImplementedException();
         }
 
         public IEnumerable<Forum> GetAll()
         {
-            return _context.Forums
-                .Include(forum => forum.Posts);
+            var forums = _context.Forums
+                .Include(f => f.Posts);
+
+            return forums;
         }
 
         public IEnumerable<ApplicationUser> GetAllActiveUsers()
@@ -37,17 +40,25 @@ namespace Forums.Services
             throw new System.NotImplementedException();
         }
 
-        public Forum GetById(int Id)
+        public Forum GetById(int id)
+        {
+            var forum = _context.Forums.Where(f => f.Id == id)
+                .Include(f => f.Posts)
+                    .ThenInclude(p => p.Replies)
+                        .ThenInclude(r => r.User)
+                .Include(f => f.Posts)
+                    .ThenInclude(p => p.User)
+                .FirstOrDefault();
+
+            return forum;
+        }
+
+        public Task UpdateForumDescription(int id, string newDescription)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task UpdateForumDescription(int Id, string newDescription)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task UpdateForumTitle(int Id, string newTitle)
+        public Task UpdateForumTitle(int id, string newTitle)
         {
             throw new System.NotImplementedException();
         }

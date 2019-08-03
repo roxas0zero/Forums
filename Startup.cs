@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Forums.Models;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Forums.Services;
+using Forums.Services.Interfaces;
 
 namespace Forums
 {
@@ -57,6 +58,7 @@ namespace Forums
             });
 
             services.AddSingleton<IEmailSender, EmailSender>();
+            services.AddScoped<IForumService, ForumService>();  
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
