@@ -16,6 +16,7 @@ namespace Forums.Controllers
             _forumService = forumService;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             var forums = _forumService.GetAll()
@@ -34,6 +35,7 @@ namespace Forums.Controllers
             return View(model);
         }
 
+        [HttpGet]
         public IActionResult Topic(int id)
         {
             var forum = _forumService.GetById(id);
