@@ -72,7 +72,7 @@ namespace Forums.Controllers
             var post = BuildPost(model, user);
 
             await _postService.Add(post);
-            return RedirectToAction("Index", "Post", post.Id);
+            return RedirectToAction(nameof(Index), new { id = post.Id });
         }
 
         private Post BuildPost(NewPostModel model, ApplicationUser user)
