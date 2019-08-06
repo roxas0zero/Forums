@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Forums.Models;
+using System;
 
 namespace Forums.Controllers
 {
@@ -8,7 +9,13 @@ namespace Forums.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            var model = BuildHomeIndexModel();
+            return View(model);
+        }
+
+        private HomeIndexModel BuildHomeIndexModel()
+        {
+            throw new NotImplementedException();
         }
 
         public IActionResult Privacy()

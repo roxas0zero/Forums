@@ -39,9 +39,8 @@ namespace Forums.Controllers
         public IActionResult Topic(int id)
         {
             var forum = _forumService.GetById(id);
-            var posts = forum.Posts;
 
-            var postListings = posts.Select(p => new PostListingModel
+            var posts = forum.Posts.Select(p => new PostListingModel
             {
                Id = p.Id,
                AuthorId = p.User.Id,
@@ -56,7 +55,7 @@ namespace Forums.Controllers
             var model = new ForumTopicModel
             {
                 Forum = BuildForumListing(forum),
-                Posts = postListings
+                Posts = posts
             };
 
             return View(model);
