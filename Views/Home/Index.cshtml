@@ -1,11 +1,61 @@
 ﻿@model Forums.ViewModels.Home.HomeIndexModel
 
+@{
+    ViewData["Title"] = "Home Page";
+}
+
 <div class="container">
-    <div class="row frontPageSplash">
-        <div class="col-6 frontPageLearn">
-            <div class="frontPageHeading">
+    <div class="row">
+        <div class="col-md-6">
+            <div>
                 Learn, Collaborate, Share Knowledge
             </div>
+            <p>this is the world's fastest growing coding forums</p>
+            <div>
+                <form asp-controller="Search" asp-action="Search" method="post">
+                    <input asp-for="SearchQuery" type="text" placeholder="Search..." />
+                </form>
+            </div>
         </div>
+        <div class="col-md-6"></div>
+    </div>
+    <div class="row">
+        <h3>Latest Posts</h3>
+        <table class="table table-hover">
+            <tbody>
+                @foreach (var post in Model.LatestPosts)
+                {
+                    <tr>
+                        <td>
+                            <div style="background-image: url(@post.Forum.ImageUrl); background-size: 100%;"></div>
+                            <div>
+                                <a asp-controller="Post" asp-action="Index" asp-route-id="@post.Id">
+                                    @post.Title
+                                </a>
+                            </div>
+                            <div>
+                                @if (post.RepliesCount == 0)
+                                {
+                                    <span>No Replies</span>
+                                }
+                                else if (post.RepliesCount == 1)
+                                {
+                                    <span>@post.RepliesCount Reply</span>
+                                }
+                                else
+                                {
+                                    <span>@post.RepliesCount Replies</span>
+                                }
+                                <span>
+                                    <a asp-controller="Profile" asp-action="Details" asp-route-id="@post.AuthorId">
+                                        @post.AuthorName
+                                    </a>
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </div>

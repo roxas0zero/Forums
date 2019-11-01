@@ -36,7 +36,13 @@ namespace Forums.Services
 
         public IEnumerable<Post> GetAll()
         {
-            throw new NotImplementedException();
+            var posts = _context.Posts
+                .Include(p => p.User)
+                .Include(p => p.Replies)
+                    .ThenInclude(r => r.User)
+                .Include(p => p.Forum);
+
+            return posts;
         }
 
         public Post GetById(int id)

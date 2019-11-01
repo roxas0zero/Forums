@@ -2,15 +2,15 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Forums.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Forums.Models;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Forums.Services;
 using Forums.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.Extensions.Hosting;
 
 namespace Forums
 {
@@ -22,32 +22,26 @@ namespace Forums
         }
 
         public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
+        
         public void ConfigureServices(IServiceCollection services)
-        {
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
-
-            services.AddDbContext<ApplicationDbContext>(options =>
+        {            
+            services.AddDbContextPool<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+            services.AddDefaultIdentity<ApplicationUser>()
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-                .AddRazorPagesOptions(options =>
-                {
-                    options.AllowAreas = true;
-                    options.Conventions.AuthorizeAreaFolder("Identity", "/Account/Manage");
-                    options.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");
-                });
+
+            services.AddControllersWithViews();
+            services.AddRazorPages(options =>
+            {
+                options.Conventions.AuthorizeAreaFolder("Identity", "/Account/Manage");
+                options.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");
+                options.Conventions.AuthorizeAreaPage("Admin", "/Index");
+                options.Conventions.AuthorizeAreaFolder("Admin", "/Users");
+            });
 
             services.ConfigureApplicationCookie(options =>
             {
@@ -60,9 +54,8 @@ namespace Forums
             services.AddScoped<IForumService, ForumService>();
             services.AddScoped<IPostService, PostService>();
         }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -71,22 +64,22 @@ namespace Forums
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseExceptionHandler("/Home/Error");                
                 app.UseHsts();
             }
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
 
+            app.UseRouting(); 
+            
             app.UseAuthentication();
-
-            app.UseMvc(routes =>
+            app.UseAuthorization();
+           
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapDefaultControllerRoute();
+                endpoints.MapRazorPages();
             });
         }
     }
